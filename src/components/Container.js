@@ -44,6 +44,17 @@ function Container() {
   const addTask = () => {
     setTodoList([...todoList, newTask]);
   };
+
+  const deleteTask = (taskName) => {
+    const newTodoList = todoList.filter((task) => {
+      if (task === taskName) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    setTodoList(newTodoList);
+  };
   return (
     <Div>
       <DivHeader>
@@ -75,11 +86,15 @@ function Container() {
               <DivState>
                 <input
                   type="radio"
-                  checked={active}
-                  onClick={() => setActive(!active)}
+                  //   checked={active}
+                  //   onClick={() => setActive(!active)}
                 />
                 <img src={vectorImg} alt="dk" id="mark" />
-                <img src={deleteButton} alt="delete" />
+                <img
+                  src={deleteButton}
+                  alt="delete"
+                  onClick={() => deleteTask(task)}
+                />
               </DivState>
             </DivTodos>
           );
@@ -215,5 +230,8 @@ const DivState = styled.div`
     position: relative;
     right: 27px;
     bottom: 9px;
+  }
+  img {
+    cursor: pointer;
   }
 `;
