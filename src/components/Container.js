@@ -34,7 +34,7 @@ function Container() {
   }
   const hourPm = formatPM(new Date());
 
-  const [active, setActive] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
   const [todoList, setTodoList] = useState([]);
   const [newTask, setNewTask] = useState("");
 
@@ -46,12 +46,31 @@ function Container() {
     const task = {
       id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
       taskName: newTask,
+      isChecked: false,
     };
-    setTodoList([...todoList, task]);
+    if (newTask !== "") {
+      setTodoList([...todoList, task]);
+      document.getElementById("todo").value = "";
+      setNewTask("");
+    } else {
+      return;
+    }
   };
 
   const deleteTask = (id) => {
     setTodoList(todoList.filter((task) => task.id !== id));
+  };
+
+  const completeTask = (id) => {
+    setIsChecked(
+      todoList.map((task) => {
+        if (task.id === id) {
+          return { ...task, isChecked: true };
+        } else {
+          return task;
+        }
+      })
+    );
   };
   return (
     <Div>
@@ -75,18 +94,16 @@ function Container() {
       </DivInput>
       <DivList>
         {todoList.map((task, index) => {
-          console.log(task.taskName);
           return (
             <Task
               key={index}
               taskName={task.taskName}
               id={task.id}
               hourPm={hourPm}
-              setActive={setActive}
               deleteTask={deleteTask}
-              active={active}
               vectorImg={vectorImg}
               deleteButton={deleteButton}
+              isChecked={task.isChecked}
             />
           );
         })}

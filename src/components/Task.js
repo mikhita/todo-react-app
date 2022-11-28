@@ -6,14 +6,10 @@ export default function Task(props) {
     <DivTodos>
       <DivTime>
         <h2>{props.taskName}</h2>
-        <h4>Today at {props.hourPm}</h4>
+        <h3>Today at {props.hourPm}</h3>
       </DivTime>
       <DivState>
-        <input
-          type="radio"
-          //   checked={props.active}
-          //   onClick={() => props.setActive(!props.active)}
-        />
+        <div className={props.isChecked ? "checked" : "notChecked"}></div>
         <img src={props.vectorImg} alt="dk" id="mark" />
         <img
           src={props.deleteButton}
@@ -48,7 +44,7 @@ const DivTime = styled.div`
     margin: auto;
     height: 22px;
   }
-  h4 {
+  h3 {
     font-family: Inter;
     font-size: 14px;
     font-weight: 400;
@@ -61,12 +57,26 @@ const DivTime = styled.div`
 `;
 
 const DivState = styled.div`
-  input {
+  .checked {
     width: 25px;
     height: 25px;
     border: 2px solid green;
     accent-color: green;
-    margin-right: 10px;
+    border-radius: 50%;
+    position: relative;
+    right: 35px;
+    top: 26px;
+    background-color: green;
+  }
+  .notChecked {
+    width: 25px;
+    height: 25px;
+    border: 2px solid green;
+    accent-color: green;
+    border-radius: 50%;
+    position: relative;
+    right: 35px;
+    top: 26px;
   }
   input:hover {
     cursor: pointer;
