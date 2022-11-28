@@ -61,16 +61,14 @@ function Container() {
     setTodoList(todoList.filter((task) => task.id !== id));
   };
 
-  const completeTask = (id) => {
-    setIsChecked(
-      todoList.map((task) => {
-        if (task.id === id) {
-          return { ...task, isChecked: true };
-        } else {
-          return task;
-        }
-      })
-    );
+  const toggleCheck = (id) => {
+    let updateTodos = [...todoList].map((todo) => {
+      if (todo.id === id) {
+        todo.isChecked = !todo.isChecked;
+      }
+      return todo;
+    });
+    setTodoList(updateTodos);
   };
   return (
     <Div>
@@ -104,6 +102,9 @@ function Container() {
               vectorImg={vectorImg}
               deleteButton={deleteButton}
               isChecked={task.isChecked}
+              toggleCheck={() => {
+                toggleCheck(task.id);
+              }}
             />
           );
         })}

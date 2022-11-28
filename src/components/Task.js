@@ -9,7 +9,10 @@ export default function Task(props) {
         <h3>Today at {props.hourPm}</h3>
       </DivTime>
       <DivState>
-        <div className={props.isChecked ? "checked" : "notChecked"}></div>
+        <div
+          className={props.isChecked ? "checked" : "notChecked"}
+          onClick={props.toggleCheck}
+        ></div>
         <img src={props.vectorImg} alt="dk" id="mark" />
         <img
           src={props.deleteButton}
@@ -67,6 +70,7 @@ const DivState = styled.div`
     right: 35px;
     top: 26px;
     background-color: green;
+    cursor: pointer;
   }
   .notChecked {
     width: 25px;
@@ -77,6 +81,7 @@ const DivState = styled.div`
     position: relative;
     right: 35px;
     top: 26px;
+    cursor: pointer;
   }
   input:hover {
     cursor: pointer;
