@@ -3,6 +3,7 @@ import styled from "styled-components";
 import flowers from "./assets/flowers.png";
 import deleteButton from "./assets/delete.png";
 import vectorImg from "./assets/Vector.png";
+import Task from "./Task";
 
 function Container() {
   const day = new Date().getDate();
@@ -10,7 +11,7 @@ function Container() {
     let hours = date.getHours();
     let minutes = date.getMinutes();
     let ampm = hours >= 12 ? "pm" : "am";
-    hours = hours % 12;
+    // hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? "0" + minutes : minutes;
     let strTime = hours + ":" + minutes + " " + ampm;
@@ -25,7 +26,7 @@ function Container() {
     let hours = date.getHours();
     let minutes = date.getMinutes();
     let ampm = hours >= 12 ? "pm" : "am";
-    hours = hours % 12;
+    // hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? "0" + minutes : minutes;
     let strTime = hours + ":" + minutes + " " + ampm;
@@ -33,7 +34,7 @@ function Container() {
   }
   const hourPm = formatPM(new Date());
 
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(null);
   const [todoList, setTodoList] = useState([]);
   const [newTask, setNewTask] = useState("");
 
@@ -42,26 +43,23 @@ function Container() {
   };
 
   const addTask = () => {
-    setTodoList([...todoList, newTask]);
+    const task = {
+      id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
+      taskName: newTask,
+    };
+    setTodoList([...todoList, task]);
   };
 
-  const deleteTask = (taskName) => {
-    const newTodoList = todoList.filter((task) => {
-      if (task === taskName) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-    setTodoList(newTodoList);
+  const deleteTask = (id) => {
+    setTodoList(todoList.filter((task) => task.id !== id));
   };
   return (
     <Div>
       <DivHeader>
-        <h3>
+        <h5>
           {day} {dayOfWeekName}
-        </h3>
-        <h2>{hourAm}</h2>
+        </h5>
+        <h4>{hourAm}</h4>
       </DivHeader>
       <DivInput>
         <input
@@ -76,27 +74,20 @@ function Container() {
         </button>
       </DivInput>
       <DivList>
-        {todoList.map((task) => {
+        {todoList.map((task, index) => {
+          console.log(task.taskName);
           return (
-            <DivTodos>
-              <DivTime>
-                <h2>{task}</h2>
-                <h4>Today at {hourPm}</h4>
-              </DivTime>
-              <DivState>
-                <input
-                  type="radio"
-                  //   checked={active}
-                  //   onClick={() => setActive(!active)}
-                />
-                <img src={vectorImg} alt="dk" id="mark" />
-                <img
-                  src={deleteButton}
-                  alt="delete"
-                  onClick={() => deleteTask(task)}
-                />
-              </DivState>
-            </DivTodos>
+            <Task
+              key={index}
+              taskName={task.taskName}
+              id={task.id}
+              hourPm={hourPm}
+              setActive={setActive}
+              deleteTask={deleteTask}
+              active={active}
+              vectorImg={vectorImg}
+              deleteButton={deleteButton}
+            />
           );
         })}
       </DivList>
@@ -122,13 +113,13 @@ const Div = styled.div`
   flex-direction: column;
   overflow: hidden;
   max-height: 90%;
-  h2 {
+  h4 {
     color: white;
     font-size: xxx-large;
     text-align: end;
     margin: auto;
   }
-  h3 {
+  h5 {
     color: white;
     text-align: end;
     font-size: x-large;
@@ -176,62 +167,5 @@ const DivInput = styled.div`
     letter-spacing: 0em;
     text-align: left;
     color: #888888;
-  }
-`;
-
-const DivTodos = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 23px 0 23px;
-  position: relative;
-  top: 100px;
-  height: 60px;
-`;
-
-const DivTime = styled.div`
-  margin-top: 15px;
-  h2 {
-    font-family: Inter;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 22px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #0d0d0d;
-    margin: auto;
-    height: 22px;
-  }
-  h4 {
-    font-family: Inter;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 17px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #888888;
-    margin: auto;
-  }
-`;
-
-const DivState = styled.div`
-  input {
-    width: 25px;
-    height: 25px;
-    border: 2px solid green;
-    accent-color: green;
-    margin-right: 10px;
-  }
-  input:hover {
-    cursor: pointer;
-  }
-  #mark {
-    position: relative;
-    right: 27px;
-    bottom: 9px;
-  }
-  img {
-    cursor: pointer;
   }
 `;
