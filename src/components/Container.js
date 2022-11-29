@@ -56,17 +56,16 @@ function Container() {
     };
     if (newTask !== "") {
       setTodoList([...todoList, task]);
-
       setNewTask("");
+      setIsActive(false);
     } else if (newTask !== "" && isChecked === true) {
       setTodoList([...todoList, task]);
-
       setNewTask("");
       setIsChecked(true);
+      setIsActive(false);
     } else {
       return;
     }
-    // console.log(isChecked);
   };
 
   const deleteTask = (id) => {
@@ -122,7 +121,6 @@ function Container() {
         </button>
       </DivInput>
       <DivList>
-        {console.log(isChecked)}
         {todoList.map((task, index) => {
           return (
             <Task
