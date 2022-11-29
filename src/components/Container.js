@@ -35,11 +35,17 @@ function Container() {
   const hourPm = formatPM(new Date());
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [todoList, setTodoList] = useState([]);
   const [newTask, setNewTask] = useState("");
 
   const handleChange = (event) => {
     setNewTask(event.target.value);
+    if (event.target.value.length > 0) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   };
 
   const addTask = () => {
@@ -85,7 +91,25 @@ function Container() {
           name="todo"
           placeholder="Input"
           onChange={handleChange}
+          style={{ paddingLeft: isActive ? "40px" : "" }}
         />
+
+        {isActive && (
+          <div
+            className={isChecked ? "checked" : "notChecked"}
+            onClick={() => setIsChecked((current) => !current)}
+          ></div>
+        )}
+        {isActive && (
+          <img
+            src={vectorImg}
+            alt="dk"
+            id="mark"
+            onClick={() => setIsChecked((current) => !current)}
+            style={{ position: "relative", right: "265px", bottom: "3px" }}
+          />
+        )}
+
         <button type="submit" onClick={addTask}>
           +
         </button>
@@ -158,6 +182,28 @@ const DivInput = styled.div`
   align-items: center;
   position: relative;
   top: 105px;
+  div {
+    position: relative;
+    bottom: 2px;
+    right: 245px;
+  }
+  .checked {
+    width: 25px;
+    height: 25px;
+    border: 2px solid green;
+    accent-color: green;
+    border-radius: 50%;
+    background-color: green;
+    cursor: pointer;
+  }
+  .notChecked {
+    width: 25px;
+    height: 25px;
+    border: 2px solid green;
+    accent-color: green;
+    border-radius: 50%;
+    cursor: pointer;
+  }
   button {
     background-color: #20eeb0;
     width: 89px;
@@ -177,7 +223,7 @@ const DivInput = styled.div`
     height: 32px;
     border: none;
     border-radius: 8px;
-    width: 56%;
+    max-width: 56%;
     font-family: Inter;
     font-size: 16px;
     font-weight: 400;

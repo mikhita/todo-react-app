@@ -13,7 +13,12 @@ export default function Task(props) {
           className={props.isChecked ? "checked" : "notChecked"}
           onClick={props.toggleCheck}
         ></div>
-        <img src={props.vectorImg} alt="dk" id="mark" />
+        <img
+          src={props.vectorImg}
+          alt="dk"
+          id="mark"
+          onClick={props.toggleCheck}
+        />
         <img
           src={props.deleteButton}
           alt="delete"
