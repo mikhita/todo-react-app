@@ -52,15 +52,21 @@ function Container() {
     const task = {
       id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
       taskName: newTask,
-      isChecked: false,
+      isChecked: isChecked,
     };
     if (newTask !== "") {
       setTodoList([...todoList, task]);
-      document.getElementById("todo").value = "";
+
       setNewTask("");
+    } else if (newTask !== "" && isChecked === true) {
+      setTodoList([...todoList, task]);
+
+      setNewTask("");
+      setIsChecked(true);
     } else {
       return;
     }
+    // console.log(isChecked);
   };
 
   const deleteTask = (id) => {
@@ -89,6 +95,7 @@ function Container() {
           type="text"
           id="todo"
           name="todo"
+          value={newTask}
           placeholder="Input"
           onChange={handleChange}
           style={{ paddingLeft: isActive ? "40px" : "" }}
@@ -115,6 +122,7 @@ function Container() {
         </button>
       </DivInput>
       <DivList>
+        {console.log(isChecked)}
         {todoList.map((task, index) => {
           return (
             <Task

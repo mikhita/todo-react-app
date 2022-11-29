@@ -9,6 +9,7 @@ export default function Task(props) {
         <h3>Today at {props.hourPm}</h3>
       </DivTime>
       <DivState>
+        {console.log(props.isChecked)}
         <div
           className={props.isChecked ? "checked" : "notChecked"}
           onClick={props.toggleCheck}
